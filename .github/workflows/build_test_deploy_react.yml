@@ -57,10 +57,14 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
       - name: build and publish package on NPM
         run: |
-          git config --global user.email "hugo.goncalves06@ynov.com"
-          git config --global user.name "HugoGoncalves06"
+          npm ci
           npm run build-npm
           npm version patch
           npm publish
