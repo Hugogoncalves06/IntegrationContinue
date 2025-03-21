@@ -60,4 +60,6 @@ jobs:
       - name: Deploy to github pages
         id: deployment
         uses: actions/deploy-pages@v2
+        with:
+          artifact_name: build.21.x
         
