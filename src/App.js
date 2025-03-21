@@ -3,6 +3,13 @@ import RegistrationForm from './components/forms/RegistrationForm';
 import Toastr from './components/toastr/Toastr';
 import './App.css';
 
+/**
+ * The main application component that renders the registration form and a toastr notification
+ * upon successful registration.
+ *
+ * @component
+ * @returns {JSX.Element} The rendered App component.
+ */
 function App() {
   const [successful, setSuccessful] = useState(false);
 

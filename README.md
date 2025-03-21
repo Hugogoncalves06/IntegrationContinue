@@ -1,91 +1,61 @@
-# Getting Started with Create React App
+# Formulaire d'Enregistrement React
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Ce projet est une application React qui implémente un formulaire d'enregistrement avec validation des champs et affichage de notifications.
 
-## Available Scripts
+## Fonctionnalités
 
-In the project directory, you can run:
+- Validation des champs en temps réel
+- Vérification de l'âge (18 ans minimum)
+- Validation du format email
+- Validation du code postal français
+- Notification de succès après soumission
+- Tests unitaires et d'intégration
+
+## Scripts Disponibles
+
+Dans le répertoire du projet, vous pouvez exécuter :
 
 ### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Lance l'application en mode développement.\
+Ouvrez [http://localhost:3000](http://localhost:3000) pour la voir dans votre navigateur.
 
 ### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Lance les tests en mode interactif.\
+Les tests incluent :
+- Validation des champs
+- Gestion des erreurs
+- Tests des composants React
+- Tests d'intégration
+
+### `npm run test:coverage`
+
+Lance les tests avec génération du rapport de couverture.
 
 ### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Compile l'application pour la production dans le dossier `build`.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Intégration Continue
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Le projet utilise GitHub Actions pour :
+- Exécuter les tests automatiquement
+- Vérifier la couverture de code
+- Déployer automatiquement sur GitHub Pages
 
-### `npm run eject`
+## Déploiement
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+L'application est déployée automatiquement sur GitHub Pages à chaque push sur la branche master.
+URL de production : [https://Hugogoncalves06.github.io/IntegrationContinue/](https://Hugogoncalves06.github.io/IntegrationContinue/)
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Versions
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Version actuelle : 0.1.2
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Technologies Utilisées
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-0.1.2-8005926928-41-1.0
-0.1.2-8006167023-42-1.0
-0.1.2-8006278906-44-1.0
-0.1.2-8020085332-45-1.0
-0.1.2-8020270501-46-1.0
-0.1.2-8020359706-47-1.0
-0.1.2-8020417416-48-1.0
-0.1.2-8020457083-49-1.0
-0.1.2-8020495936-50-1.0
-0.1.2-8020596252-51-1.0
-0.1.2-8020624614-52-1.0
-0.1.2-8020673050-53-1.0
-0.1.2-8020710828-54-1.0
-0.1.2-8020741002-55-1.0
-0.1.2-8020814725-57-1.0
-0.1.2-8102658842-61-1.0
-0.1.2-8102863517-64-1.0
-0.1.2-8103054464-65-1.0
-0.1.2-8103377852-66-1.0
-0.1.2-8133232161-67-1.0
-0.1.2-8143757907-70-1.0
+- React 18.2.0
+- Jest pour les tests
+- GitHub Actions pour CI/CD
+- GitHub Pages pour l'hébergement

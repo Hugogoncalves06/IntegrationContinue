@@ -1,3 +1,11 @@
+/**
+ * Toastr component displays a success toast notification.
+ *
+ * @param {Object} props - The properties object.
+ * @param {Function} props.setSuccessful - Function to update the success state.
+ * @param {number} props.progress - The progress value (not currently used in the component).
+ * @returns {JSX.Element} The rendered Toastr component.
+ */
 export default function Toastr({ setSuccessful, progress }) {
     return (
         <div id="toast-success"

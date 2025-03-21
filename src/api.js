@@ -4,6 +4,14 @@ import axios from 'axios';
 const API = process.env.REACT_APP_SERVER_URL;
 
 
+/**
+ * Fetches the list of users from the API and returns the count of users.
+ *
+ * @async
+ * @function countUsers
+ * @returns {Promise<number>} The number of users retrieved from the API.
+ * @throws {Error} Throws an error if the API request fails.
+ */
 export const countUsers = async () => {
     try {
         const response = await axios.get(`${API}/users`);

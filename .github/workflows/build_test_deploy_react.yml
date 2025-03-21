@@ -42,6 +42,7 @@ jobs:
         run: |
           npm ci
           npm run build --if-present
+          npm run jsdoc
       - name: Deploy to GitHub Pages
         id: pages
         uses: actions/configure-pages@v3

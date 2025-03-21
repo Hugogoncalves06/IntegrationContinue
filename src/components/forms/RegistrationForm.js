@@ -5,6 +5,19 @@ import { validateForm, areAllFieldsFilled } from '../utils/validation';
  * Composant de formulaire d'enregistrement
  * @returns {JSX.Element} Le formulaire d'enregistrement
  */
+/**
+ * RegistrationForm component handles user registration by collecting and validating form data.
+ * It saves the data to localStorage upon successful submission and displays errors for invalid inputs.
+ *
+ * @component
+ * @param {Object} props - The component props.
+ * @param {Function} props.setSuccessful - Callback function to set the success state after form submission.
+ *
+ * @returns {JSX.Element} The rendered registration form component.
+ *
+ * @example
+ * <RegistrationForm setSuccessful={setSuccessfulHandler} />
+ */
 const RegistrationForm = ({ setSuccessful }) => {
   const [formData, setFormData] = useState({
     firstName: '',
