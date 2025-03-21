@@ -22,7 +22,7 @@
     "test": "react-scripts test  --coverage --collectCoverageFrom=src/**/*js* --collectCoverageFrom=!src/reportWebVitals.js --collectCoverageFrom=!src/index.js --watchAll=false --setupFiles=./.jest/setEnvVars.js",
     "eject": "react-scripts eject",
     "jsdoc": "jsdoc -R ./README.md -c ./jsdoc.config.json -r -d ./public/docs",
-    "test:coverage": "react-scripts test --coverage --watchAll=false",
+    "test:coverage": "react-scripts test --collectCoverageFrom=src/**/*js* --collectCoverageFrom=!src/reportWebVitals.js --collectCoverageFrom=!src/index.js --coverage --watchAll=false",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "cypress": "cypress open"
