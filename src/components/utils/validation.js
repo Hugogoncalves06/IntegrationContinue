@@ -80,8 +80,8 @@ export const validateForm = (fields) => {
     errors.postalCode = 'Le code postal n\'est pas valide';
   }
 
-  if (!fields.city.trim()) {
-    errors.city = 'La ville est requise';
+  if (!/^[a-zàáâäçèéêëìíîïñòóôöùúûüýÿ\s'-]+$/i.test(fields.city.trim())) {
+    errors.city = 'La ville n\'est pas valide';
   }
 
   return errors;

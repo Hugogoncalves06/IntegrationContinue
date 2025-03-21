@@ -43,65 +43,23 @@ describe('Error tests', () => {
       render(<App />);
       registrationForm = screen.getByTestId('registration-form');
     });
-
-    test('affiche une erreur quand le prénom est invalide', () => {
-      fireEvent.change(screen.getByTestId('input-firstName'), { target: { value: '123' } });
-      fireEvent.blur(screen.getByTestId('input-firstName'));
-      
-      fireEvent.submit(registrationForm);
-      const errorMessage = screen.getByText('Le prénom n\'est pas valide');
-      expect(errorMessage).toBeInTheDocument();
-    });
-
-    test('affiche une erreur quand le nom est invalide', () => {
-      
-      fireEvent.change(screen.getByTestId('input-lastName'), { target: { value: '123' } });
-      fireEvent.blur(screen.getByTestId('input-lastName'));
-      fireEvent.submit(registrationForm);
-
-      const errorMessage = screen.getByText('Le nom n\'est pas valide');
-      expect(errorMessage).toBeInTheDocument();
-    });
-
-    test('affiche une erreur quand l\'email est invalide', () => {
-      
-      fireEvent.change(screen.getByTestId('input-email'), { target: { value: 'invalid-email' } });
-      fireEvent.blur(screen.getByTestId('input-email'));
+    it.each([
+      { field: 'input-firstName', value: '123', error: 'Le prénom n\'est pas valide' },
+      { field: 'input-lastName', value: '123', error: 'Le nom n\'est pas valide' },
+      { field: 'input-email', value: 'invalid-email', error: 'L\'email n\'est pas valide' },
+      { 
+      field: 'input-birthDate', 
+      value: new Date(new Date().getFullYear() - 17, new Date().getMonth(), new Date().getDate()).toISOString().split('T')[0], 
+      error: 'Vous devez avoir au moins 18 ans' 
+      },
+      { field: 'input-city', value: '', error: 'La ville n\'est pas valide' },
+      { field: 'input-postalCode', value: 'abc', error: 'Le code postal n\'est pas valide' }
+    ])('affiche une erreur pour le champ $field avec la valeur $value', ({ field, value, error }) => {
+      fireEvent.change(screen.getByTestId(field), { target: { value } });
+      fireEvent.blur(screen.getByTestId(field));
       fireEvent.submit(registrationForm);
 
-      const errorMessage = screen.getByText('L\'email n\'est pas valide');
-      expect(errorMessage).toBeInTheDocument();
-    });
-
-    test('affiche une erreur quand l\'utilisateur a moins de 18 ans', () => {
-      
-      const today = new Date();
-      const minorDate = new Date(today.getFullYear() - 17, today.getMonth(), today.getDate()).toISOString().split('T')[0];
-      fireEvent.change(screen.getByTestId('input-birthDate'), { target: { value: minorDate } });
-      fireEvent.blur(screen.getByTestId('input-birthDate'));
-      fireEvent.submit(registrationForm);
-
-      const errorMessage = screen.getByText('Vous devez avoir au moins 18 ans');
-      expect(errorMessage).toBeInTheDocument();
-    });
-
-    test('affiche une erreur quand la ville est vide', () => {
-      
-      fireEvent.change(screen.getByTestId('input-city'), { target: { value: '' } });
-      fireEvent.blur(screen.getByTestId('input-city'));
-      fireEvent.submit(registrationForm);
-
-      const errorMessage = screen.getByText('La ville est requise');
-      expect(errorMessage).toBeInTheDocument();
-    });
-
-    test('affiche une erreur quand le code postal est invalide', () => {
-      
-      fireEvent.change(screen.getByTestId('input-postalCode'), { target: { value: 'abc' } });
-      fireEvent.blur(screen.getByTestId('input-postalCode'));
-      fireEvent.submit(registrationForm);
-
-      const errorMessage = screen.getByText('Le code postal n\'est pas valide');
+      const errorMessage = screen.getByText(error);
       expect(errorMessage).toBeInTheDocument();
     });
   });
