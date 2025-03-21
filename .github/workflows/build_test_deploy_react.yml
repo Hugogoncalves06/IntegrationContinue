@@ -62,16 +62,17 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
+      - name: Authenticate with npm
+        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
       - name: build and publish package on NPM
         run: |
           npm ci
-          git config --global user.email "hugo.goncalves06@ynov.com"
-          git config --global user.name "HugoGoncalves06"
           npm run build-npm
           npm version patch
           npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
   deploy:
     needs: build_test
     environment:
