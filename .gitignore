@@ -4,7 +4,6 @@
 /node_modules
 /server/node_modules
 /server/__pycache__
-/public
 /.pnp
 /dist
 .pnp.js
