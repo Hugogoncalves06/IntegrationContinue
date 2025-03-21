@@ -1,6 +1,7 @@
 export default function Toastr({ setSuccessful, progress }) {
     return (
         <div id="toast-success"
+             data-testid="toast-success"
              className="flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow fixed bottom-0 right-6"
              role="alert">
             <div

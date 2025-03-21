@@ -55,7 +55,7 @@ const RegistrationForm = ({ setSuccessful }) => {
   const isFormValid = areAllFieldsFilled(formData);
 
   return (
-    <form onSubmit={handleSubmit} className="registration-form">
+    <form onSubmit={handleSubmit} className="registration-form" data-testid="registration-form">
       <div className="form-group">
         <label htmlFor="firstName">Prénom</label>
         <input
@@ -65,6 +65,7 @@ const RegistrationForm = ({ setSuccessful }) => {
           value={formData.firstName}
           onChange={handleChange}
           className={errors.firstName ? 'error' : ''}
+          data-testid="input-firstName"
         />
         {errors.firstName && <span className="error-message">{errors.firstName}</span>}
       </div>
@@ -78,6 +79,7 @@ const RegistrationForm = ({ setSuccessful }) => {
           value={formData.lastName}
           onChange={handleChange}
           className={errors.lastName ? 'error' : ''}
+          data-testid="input-lastName"
         />
         {errors.lastName && <span className="error-message">{errors.lastName}</span>}
       </div>
@@ -91,6 +93,7 @@ const RegistrationForm = ({ setSuccessful }) => {
           value={formData.email}
           onChange={handleChange}
           className={errors.email ? 'error' : ''}
+          data-testid="input-email"
         />
         {errors.email && <span className="error-message">{errors.email}</span>}
       </div>
@@ -104,6 +107,7 @@ const RegistrationForm = ({ setSuccessful }) => {
           value={formData.birthDate}
           onChange={handleChange}
           className={errors.birthDate ? 'error' : ''}
+          data-testid="input-birthDate"
         />
         {errors.birthDate && <span className="error-message">{errors.birthDate}</span>}
       </div>
@@ -117,6 +121,7 @@ const RegistrationForm = ({ setSuccessful }) => {
           value={formData.city}
           onChange={handleChange}
           className={errors.city ? 'error' : ''}
+          data-testid="input-city"
         />
         {errors.city && <span className="error-message">{errors.city}</span>}
       </div>
@@ -130,6 +135,7 @@ const RegistrationForm = ({ setSuccessful }) => {
           value={formData.postalCode}
           onChange={handleChange}
           className={errors.postalCode ? 'error' : ''}
+          data-testid="input-postalCode"
         />
         {errors.postalCode && <span className="error-message">{errors.postalCode}</span>}
       </div>

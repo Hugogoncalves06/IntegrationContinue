@@ -1,21 +1,39 @@
 /**
- * Calculate a person's age in years.
- *
- * @param {object} p An object representing a person, implementing a birth Date parameter.
- * @return {number} The age in years of p.
+ * Calculate the age of a person from their birth date
+ * 
+ * @param {Object} p - person object with a birth property of type Date
+ * @returns {Number} The age of the person
+ * @throws {Error} If the input is invalid
  */
 function calculateAge(p) {
-    if(!p) {
-        throw new Error("missing param p")
+    // Vérification si l'argument est fourni
+    if (arguments.length === 0) {
+        throw new Error('Argument requis');
     }
-    let dateDiff = new Date(Date.now() - p.birth.getTime())
-    let age = Math.abs(dateDiff.getUTCFullYear() - 1970);
+
+    // Vérification si l'argument est un objet
+    if (typeof p !== 'object' || p === null) {
+        throw new Error('L\'argument doit être un objet');
+    }
+
+    // Vérification si l'objet contient la propriété birth
+    if (!p.hasOwnProperty('birth')) {
+        throw new Error('L\'objet doit contenir une propriété birth');
+    }
+
+    // Vérification si birth est un objet Date
+    if (!(p.birth instanceof Date)) {
+        throw new Error('La propriété birth doit être un objet Date');
+    }
+
+    // Vérification si la date est valide
+    if (isNaN(p.birth.getTime())) {
+        throw new Error('La date fournie est invalide');
+    }
+
+    let dateDiff = new Date(Date.now() - p.birth.getTime());
+    let age = dateDiff.getUTCFullYear() - 1970;
     return age;
 }
 
-// let loise = {
-//     birth: new Date("11/07/1991")
-// }
-// console.log(calculateAge(loise))
-
-export {calculateAge}
+module.exports = { calculateAge };
