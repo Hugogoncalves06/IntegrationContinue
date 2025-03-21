@@ -53,6 +53,19 @@ jobs:
           path: ./build
           if-no-files-found: error
 
+  build_deploy_npm:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: build and publish package on NPM
+        run: |
+          git config --global user.email "hugo.goncalves06@ynov.com"
+          git config --global user.name "HugoGoncalves06"
+          npm run build-npm
+          npm version patch
+          npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
   deploy:
     needs: build_test
     environment:
