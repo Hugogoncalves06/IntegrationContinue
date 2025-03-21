@@ -67,6 +67,8 @@ jobs:
       - name: build and publish package on NPM
         run: |
           npm ci
+          git config --global user.email "hugo.goncalves06@ynov.com"
+          git config --global user.name "HugoGoncalves06"
           npm run build-npm
           npm version patch
           npm publish
