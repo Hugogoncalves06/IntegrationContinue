@@ -35,10 +35,11 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
         run: npm ci
-      - name: Build
-        run: npm run build
-      - name: Download Artifact
-        uses: actions/upload-artifact@v4
+      - name: Deploy to GitHub Pages
+        id: pages
+        uses: actions/configure-pages@v3
+      - name : Upload Artifact
+        uses: actions/upload-pages-artifact@v3
         with:
           name: build.${{ matrix.node-version }}
           path: ./build
@@ -46,14 +47,15 @@ jobs:
 
   deploy:
     needs: build_test
+    environment:
+      name: github-pages
+      url: ${{steps.deployment.outputs.page_url}}
     runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
     steps:
-      - name: Deploy to GitHub Pages
-        id: pages
-        uses: actions/configure-pages@v3
-      - name : Download Artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ./build.21.x
-          if-no-files-found: error
+      - name: Deploy to github pages
+        id: deployment
+        uses: actions/deploy-pages@v2
         
