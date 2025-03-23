@@ -71,8 +71,6 @@ jobs:
           npm run build-npm
           npm version patch
           npm publish --access public
-      - name: Update the package version and push it to the repository
-        run: ./scripts/update_npm_version.sh
         env:
           NODE_AUTH_TOKEN: ${{ secrets.PUBLISH_TOKEN }}
 
