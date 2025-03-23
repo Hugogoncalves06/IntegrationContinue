@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: ['20.x','21.x']
+        node-version: ['20.x','21.x','22.x']
     steps:
       - uses: actions/checkout@v4
       - name: Setup Node.js
@@ -29,7 +29,7 @@ jobs:
   build_test:
     strategy:
       matrix:
-        node-version: ['20.x','21.x']
+        node-version: ['20.x','21.x','22.x']
     runs-on: ubuntu-latest
     needs: test
     steps:
@@ -51,7 +51,6 @@ jobs:
         with:
           name: build.${{ matrix.node-version }}
           path: ./build
-          if-no-files-found: error
 
   build_deploy_npm:
     needs: test
@@ -72,6 +71,8 @@ jobs:
           npm run build-npm
           npm version patch
           npm publish --access public
+      - name: Update the package version and push it to the repository
+        run: ./scripts/update_npm_version.sh
         env:
           NODE_AUTH_TOKEN: ${{ secrets.PUBLISH_TOKEN }}
 
