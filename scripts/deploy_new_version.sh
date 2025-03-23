@@ -30,5 +30,7 @@ echo "Updated version: $NEW_VERSION"
 
 echo "pushing the new version to git"
 git add $PACKAGE_JSON
-git commit -m "chore: update version to $NEW_VERSION"
-git push
+git commit -m "Script: update version to $NEW_VERSION"
+# add the new version to the tag
+git tag -a $NEW_VERSION -m "version $NEW_VERSION"
+git push origin $NEW_VERSION
