@@ -1,3 +1,13 @@
-#Create MySQL Image for JSP Tutorial Application
-FROM mysql:latest
-EXPOSE 3306
+FROM node:20
+
+WORKDIR /usr/src/app
+
+COPY package*.json ./
+
+RUN npm install
+
+COPY . .
+
+EXPOSE 8000
+
+CMD ["npm", "start"]

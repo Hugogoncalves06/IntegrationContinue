@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { validateForm, areAllFieldsFilled } from '../utils/validation';
 import './RegistrationForm.css';
+import axios from 'axios';
 
 /**
  * Composant de formulaire d'enregistrement
@@ -39,30 +40,40 @@ const RegistrationForm = ({ setSuccessful }) => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const validationErrors = validateForm(formData);
 
     if (Object.keys(validationErrors).length === 0) {
-      // Sauvegarde dans le localStorage
-      localStorage.setItem('userData', JSON.stringify(formData));
-      
-      // Afficher le toast de succès personnalisé
-      setSuccessful(true);
-      
-      // Réinitialiser le formulaire
-      setFormData({
-        firstName: '',
-        lastName: '',
-        email: '',
-        birthDate: '',
-        city: '',
-        postalCode: ''
-      });
-      setErrors({});
+      try {
+        const response = await axios.post('http://localhost:8000/api/users', formData);
+        if (response.status === 201) {
+          // Sauvegarde dans le localStorage pour compatibilité
+          localStorage.setItem('userData', JSON.stringify(formData));
+          
+          // Afficher le toast de succès
+          setSuccessful(true);
+          
+          // Réinitialiser le formulaire
+          setFormData({
+            firstName: '',
+            lastName: '',
+            email: '',
+            birthDate: '',
+            city: '',
+            postalCode: ''
+          });
+          setErrors({});
+        }
+      } catch (error) {
+        if (error.response?.status === 409) {
+          setErrors({ email: 'Cet email est déjà utilisé' });
+        } else {
+          setErrors({ submit: 'Erreur lors de l\'enregistrement. Veuillez réessayer.' });
+        }
+      }
     } else {
       setErrors(validationErrors);
-      // En cas d'erreur, pas besoin de toast, les erreurs sont affichées dans le formulaire
     }
   };
 
