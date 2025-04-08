@@ -1,0 +1,12 @@
+services:
+  react:
+    build:
+      context: ../Frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://localhost:8000
+    volumes:
+      - ..:/app
+      - /app/node_modules

@@ -125,9 +125,61 @@ Le projet utilise GitHub Actions pour :
 L'application est déployée automatiquement sur GitHub Pages à chaque push sur la branche master.
 URL de production : [https://Hugogoncalves06.github.io/IntegrationContinue/](https://Hugogoncalves06.github.io/IntegrationContinue/)
 
-## Versions
+## Versions Tags
 
-Version actuelle : 0.1.2
+### Script de Gestion des Versions
+
+Ce projet inclut un script Bash pour automatiser la gestion des versions dans le fichier `package.json` et le déploiement des nouvelles versions via Git.
+
+#### Fonctionnalités du Script
+
+- Vérifie l'existence du fichier `package.json`.
+- Extrait la version actuelle du fichier `package.json`.
+- Incrémente automatiquement la version de patch (dernier chiffre dans `x.x.x`).
+- Met à jour la version dans `package.json`.
+- Crée un commit Git avec la nouvelle version.
+- Ajoute un tag Git correspondant à la nouvelle version.
+- Pousse le tag vers le dépôt distant.
+
+#### Utilisation
+
+1. Assurez-vous que le script est exécutable :
+  ```bash
+  chmod +x scripts/deploy_new_version.sh
+  ```
+
+2. Exécutez le script :
+  ```bash
+  ./scripts/deploy_new_version.sh
+  ```
+
+#### Exemple de Sortie
+
+```bash
+Current version: 1.0.0
+Updated version: 1.0.1
+pushing the new version to git
+```
+
+#### Prérequis
+
+- Un fichier `package.json` valide avec un champ `version`.
+- Git configuré et connecté à un dépôt distant.
+- Droits d'accès pour pousser des tags sur le dépôt distant.
+
+#### Localisation du Script
+
+Le script est situé dans le chemin suivant :
+```
+scripts/deploy_new_version.sh
+```
+
+#### Notes
+
+- Le script incrémente uniquement la version de patch. Pour modifier la version majeure ou mineure, effectuez les changements manuellement dans `package.json` avant d'exécuter le script.
+- Assurez-vous que votre dépôt Git est propre (aucune modification non commitée) avant d'exécuter le script.
+- Le script utilise des tags Git pour versionner. Vérifiez que votre dépôt distant accepte les tags.
+
 
 ## Technologies Utilisées
 

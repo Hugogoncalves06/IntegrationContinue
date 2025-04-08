@@ -1,10 +1,9 @@
 describe('RegistrationForm Tests', () => {
   beforeEach(() => {
-    cy.visit('http://localhost:3000/IntegrationContinue');
+    cy.visit('http://localhost:3000');
   });
 
   it('Check if the page contains all forms data', () => {
-    cy.visit('http://localhost:3000/IntegrationContinue')
     cy.contains("Formulaire d'enregistrement")
     cy.contains('Prénom')
     cy.contains('Nom')
