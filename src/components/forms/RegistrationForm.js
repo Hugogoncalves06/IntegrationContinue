@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { validateForm, areAllFieldsFilled } from '../utils/validation';
+import './RegistrationForm.css';
 
 /**
  * Composant de formulaire d'enregistrement

@@ -1,0 +1,136 @@
+/* Variables pour les couleurs néon */
+:root {
+    --neon-primary: #0ff;
+    --neon-secondary: #f0f;
+    --neon-border: #08f;
+    --dark-bg: #0a0a0f;
+    --neon-tertiary: #0f8;  /* Adding a third neon color for animation */
+  }
+  
+  .registration-form {
+    background: var(--dark-bg);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 0 20px var(--neon-border),
+                inset 0 0 20px var(--neon-border);
+    animation: formPulse 3s infinite;
+  }
+  
+  .form-group {
+    margin-bottom: 1.5rem;
+    position: relative;
+  }
+  
+  .form-group label {
+    color: var(--neon-primary);
+    text-shadow: 0 0 5px var(--neon-primary);
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    display: block;
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .form-group input {
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid var(--neon-border);
+    border-radius: 5px;
+    color: white;
+    width: 100%;
+    transition: all 0.3s ease;
+    animation: borderColorCycle 6s infinite;
+  }
+  
+  .form-group input:focus {
+    outline: none;
+    box-shadow: 0 0 15px var(--neon-primary);
+    border-color: var(--neon-primary);
+  }
+  
+  .form-group input:hover {
+    box-shadow: 0 0 10px var(--neon-border);
+  }
+  
+  .error {
+    border-color: var(--neon-secondary) !important;
+    animation: errorShake 0.5s;
+  }
+  
+  .error-message {
+    color: var(--neon-secondary);
+    text-shadow: 0 0 5px var(--neon-secondary);
+    font-size: 0.9rem;
+    position: absolute;
+    bottom: -20px;
+  }
+  
+  button[type="submit"] {
+    background: transparent;
+    border: 2px solid var(--neon-primary);
+    color: var(--neon-primary);
+    padding: 1rem 2rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+  
+  button[type="submit"]:hover:not(:disabled) {
+    background: var(--neon-primary);
+    color: var(--dark-bg);
+    box-shadow: 0 0 20px var(--neon-primary);
+  }
+  
+  button[type="submit"]:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    border-color: #666;
+  }
+  
+  /* Animations */
+  @keyframes formPulse {
+    0% { box-shadow: 0 0 20px var(--neon-border); }
+    50% { box-shadow: 0 0 30px var(--neon-border); }
+    100% { box-shadow: 0 0 20px var(--neon-border); }
+  }
+  
+  @keyframes errorShake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    75% { transform: translateX(10px); }
+  }
+  
+  /* Animation d'apparition des champs */
+  .form-group {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.5s forwards;
+  }
+  
+  @keyframes fadeInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Animation séquentielle des champs */
+  .form-group:nth-child(1) { animation-delay: 0.1s; }
+  .form-group:nth-child(2) { animation-delay: 0.2s; }
+  .form-group:nth-child(3) { animation-delay: 0.3s; }
+  .form-group:nth-child(4) { animation-delay: 0.4s; }
+  .form-group:nth-child(5) { animation-delay: 0.5s; }
+  .form-group:nth-child(6) { animation-delay: 0.6s; }
+
+  /* Add new animation for border color cycling */
+  @keyframes borderColorCycle {
+    0% { border-color: var(--neon-border); }
+    33% { border-color: var(--neon-primary); }
+    66% { border-color: var(--neon-tertiary); }
+    100% { border-color: var(--neon-border); }
+  }
