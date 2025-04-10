@@ -53,7 +53,7 @@ describe('isValidPostalCode', () => {
 
 describe('isValidName', () => {
   it.each([
-    ['John', true],
+    ['Jïhn', true],
     ['Jean-Pierre', true],
     ['Éléonore', true],
     ['123', false],

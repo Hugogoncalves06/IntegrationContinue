@@ -1,9 +1,16 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import axios from 'axios';
 import App from './App';
 
+jest.mock('axios');
 describe('Success tests', () => {
-  test('renders Toastr component when registration is successful', () => {
+  
+  test('renders Toastr component when registration is successful', async () => {
+    axios.post.mockResolvedValueOnce({
+      status: 201,
+      data: { message: 'User created successfully' }
+    });
     render(<App />);
     // Simulate successful registration
     const registrationForm = screen.getByTestId('registration-form');
@@ -23,9 +30,23 @@ describe('Success tests', () => {
     // Submit the form
     fireEvent.submit(registrationForm);
 
-    // Check if Toastr component is rendered
-    const toastrElement = screen.getByTestId('toast-success');
-    expect(toastrElement).toBeInTheDocument();
+    expect(axios.post).toHaveBeenCalledWith(
+      `http://localhost:8000/api/users`,
+      {
+        firstName: 'John',
+        lastName: 'Doe',
+        email: 'john.doe@example.com',
+        birthDate: '2000-01-01',
+        city: 'Paris',
+        postalCode: '75000'
+      }
+    );
+    expect(axios.post).toHaveBeenCalledTimes(1);
+    
+    await waitFor(() => {
+      const toastrElement = screen.getByTestId('toast-success');
+      expect(toastrElement).toBeInTheDocument();
+    });
   });
   
   test('does not render Toastr component initially', () => {
@@ -62,5 +83,48 @@ describe('Error tests', () => {
       const errorMessage = screen.getByText(error);
       expect(errorMessage).toBeInTheDocument();
     });
+  });
+});
+
+describe('Error handling tests', () => {
+  test('affiche une erreur quand l\'email existe déjà', async () => {
+    // Mock de la réponse d'erreur 409
+    axios.post.mockRejectedValueOnce({
+      response: {
+        status: 409
+      }
+    });
+
+    render(<App />);
+    const registrationForm = screen.getByTestId('registration-form');
+
+    // Remplir le formulaire
+    fireEvent.change(screen.getByTestId('input-firstName'), { target: { value: 'John' } });
+    fireEvent.change(screen.getByTestId('input-lastName'), { target: { value: 'Doe' } });
+    fireEvent.change(screen.getByTestId('input-email'), { target: { value: 'existing@email.com' } });
+    fireEvent.change(screen.getByTestId('input-birthDate'), { target: { value: '2000-01-01' } });
+    fireEvent.change(screen.getByTestId('input-city'), { target: { value: 'Paris' } });
+    fireEvent.change(screen.getByTestId('input-postalCode'), { target: { value: '75000' } });
+
+    // Soumettre le formulaire
+    await fireEvent.submit(registrationForm);
+
+    // Vérifier que la requête a été envoyée
+    expect(axios.post).toHaveBeenCalledWith(
+      'http://localhost:8000/api/users',
+      {
+        firstName: 'John',
+        lastName: 'Doe',
+        email: 'existing@email.com',
+        birthDate: '2000-01-01',
+        city: 'Paris',
+        postalCode: '75000'
+      }
+    );
+    expect(axios.post).toHaveBeenCalledTimes(1);
+
+    // Vérifier que le message d'erreur est affiché dans le cache
+    const errorMessage = await screen.findByText(/Cet email est déjà utilisé/i);
+    expect(errorMessage).toBeInTheDocument();
   });
 });

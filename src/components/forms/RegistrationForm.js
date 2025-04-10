@@ -66,10 +66,8 @@ const RegistrationForm = ({ setSuccessful }) => {
           setErrors({});
         }
       } catch (error) {
-        if (error.response?.status === 409) {
+        if (error.response && error.response.status === 409) {
           setErrors({ email: 'Cet email est déjà utilisé' });
-        } else {
-          setErrors({ submit: 'Erreur lors de l\'enregistrement. Veuillez réessayer.' });
         }
       }
     } else {
@@ -92,7 +90,7 @@ const RegistrationForm = ({ setSuccessful }) => {
           className={errors.firstName ? 'error' : ''}
           data-testid="input-firstName"
         />
-        {errors.firstName && <span className="error-message">{errors.firstName}</span>}
+        {errors.firstName && <span className="error-message" data-testid="error-firstName">{errors.firstName}</span>}
       </div>
 
       <div className="form-group">
@@ -106,7 +104,7 @@ const RegistrationForm = ({ setSuccessful }) => {
           className={errors.lastName ? 'error' : ''}
           data-testid="input-lastName"
         />
-        {errors.lastName && <span className="error-message">{errors.lastName}</span>}
+        {errors.lastName && <span className="error-message" data-testid="error-lastName">{errors.lastName}</span>}
       </div>
 
       <div className="form-group">
@@ -118,9 +116,9 @@ const RegistrationForm = ({ setSuccessful }) => {
           value={formData.email}
           onChange={handleChange}
           className={errors.email ? 'error' : ''}
-          data-testid="input-email"
+          data-testid={errors.email ? 'error-email' : "input-email"}
         />
-        {errors.email && <span className="error-message">{errors.email}</span>}
+        {errors.email && <span className="error-message" data-testid="error-email">{errors.email}</span>}
       </div>
 
       <div className="form-group">
@@ -134,7 +132,7 @@ const RegistrationForm = ({ setSuccessful }) => {
           className={errors.birthDate ? 'error' : ''}
           data-testid="input-birthDate"
         />
-        {errors.birthDate && <span className="error-message">{errors.birthDate}</span>}
+        {errors.birthDate && <span className="error-message" data-testid="error-birthDate">{errors.birthDate}</span>}
       </div>
 
       <div className="form-group">
@@ -148,7 +146,7 @@ const RegistrationForm = ({ setSuccessful }) => {
           className={errors.city ? 'error' : ''}
           data-testid="input-city"
         />
-        {errors.city && <span className="error-message">{errors.city}</span>}
+        {errors.city && <span className="error-message" data-testid="error-city">{errors.city}</span>}
       </div>
 
       <div className="form-group">
@@ -162,7 +160,7 @@ const RegistrationForm = ({ setSuccessful }) => {
           className={errors.postalCode ? 'error' : ''}
           data-testid="input-postalCode"
         />
-        {errors.postalCode && <span className="error-message">{errors.postalCode}</span>}
+        {errors.postalCode && <span className="error-message" data-testid="error-postalCode">{errors.postalCode}</span>}
       </div>
 
       <button type="submit" disabled={!isFormValid}>
