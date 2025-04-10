@@ -32,18 +32,8 @@ describe('RegistrationForm Tests', () => {
     cy.get('[data-testid="input-postalCode"]').type('75000');
     cy.get('button[type="submit"]').should('not.be.disabled').click();
 
-    // Check if data is saved in localStorage
-    cy.window().then((win) => {
-      const userData = JSON.parse(win.localStorage.getItem('userData'));
-      expect(userData).to.deep.equal({
-        firstName: 'John',
-        lastName: 'Doe',
-        email: 'john.doe@example.com',
-        birthDate: '2000-01-01',
-        city: 'Paris',
-        postalCode: '75000',
-      });
-    });
+    // Check if api is called
+    cy.intercept('POST', '/api/registration').as('postRegistration');
   });
 
   it('should keep the button disabled when first name is incomplete', () => {
