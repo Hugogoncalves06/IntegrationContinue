@@ -120,7 +120,7 @@ jobs:
       pages: write
       id-token: write
     steps:
-
+      - uses: actions/checkout@v4
       - name: Setup environment
         run: |
           ls -la
