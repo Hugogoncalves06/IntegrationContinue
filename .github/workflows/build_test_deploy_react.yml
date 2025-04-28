@@ -34,7 +34,7 @@ jobs:
           flags: unittests-node:${{ matrix.node-version }}
           token: ${{ secrets.CODECOV_TOKEN }}
       - name: Stop the stack
-        run: docker-compose -f docker-compose.yml down
+        run: docker compose -f docker-compose.yml down
 
   test-e2e:
     runs-on: ubuntu-latest
