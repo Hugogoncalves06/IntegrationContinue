@@ -19,7 +19,8 @@ services:
     environment:
       - ME_CONFIG_MONGODB_ADMINUSERNAME=admin
       - ME_CONFIG_MONGODB_ADMINPASSWORD=password
-      - ME_CONFIG_MONGODB_URL=mongodb://admin:password@mongodb:27017/
+      # Modification de l'URL de connexion
+      - ME_CONFIG_MONGODB_URL=mongodb://admin:password@mongodb:27017/admin
       - ME_CONFIG_BASICAUTH_USERNAME=admin
       - ME_CONFIG_BASICAUTH_PASSWORD=password
     depends_on:
@@ -30,12 +31,23 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - MONGODB_URI=mongodb://admin:password@mongodb:27017/
+      - MONGODB_URI=mongodb://admin:password@mongodb:27017/admin
       - FLASK_ENV=development
       - SECRET_KEY=your_secret_key
     depends_on:
       - mongo-express
-
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - MONGODB_URI=mongodb://admin:password@mongodb:27017/
+      - PUBLIC_URL=/IntegrationContinue
+    depends_on:
+      - mongo-express
+      - api
 volumes:
   mongodb_data:
     driver: local
