@@ -23,7 +23,9 @@ jobs:
         run: |
           npm ci
       - name: Run stack
-        run: docker-compose -f docker-compose.yml up -d
+        run: |
+          docker compose -f docker-compose.yml up -d
+          sleep 13
       - name: Run tests
         run: npm run test:coverage
       - name: Upload coverage reports to Codecov
@@ -49,11 +51,13 @@ jobs:
       - name: Setup environment
         run: cp .env.dist .env
       - name: Build the stack
-        run: docker-compose -f docker-compose.yml up -d
+        run: |
+          docker compose -f docker-compose.yml up -d
+          sleep 13
       - name: Run e2e tests with cypress
         uses: cypress-io/github-action@v6
       - name: Stop the stack
-        run: docker-compose -f docker-compose.yml down
+        run: docker compose -f docker-compose.yml down
 
   build_test:
     strategy:
