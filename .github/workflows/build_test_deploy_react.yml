@@ -122,9 +122,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Setup environment
-        run: |
-          ls -la
-          cp .env.prod .env
+        run: cp .env.prod .env
       - name: Deploy to github pages
         uses: actions/deploy-pages@v4
         with:
