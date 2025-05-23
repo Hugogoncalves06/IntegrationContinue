@@ -48,9 +48,6 @@ const RegistrationForm = ({ setSuccessful }) => {
       try {
         const response = await axios.post(`${process.env.PYTHON_APP_API_BASE_URL}/users`, formData);
         if (response.status === 201) {
-          // Sauvegarde dans le localStorage pour compatibilité
-          localStorage.setItem('userData', JSON.stringify(formData));
-          
           // Afficher le toast de succès
           setSuccessful(true);
           
