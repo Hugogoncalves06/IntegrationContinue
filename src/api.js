@@ -1,7 +1,5 @@
 import axios from 'axios';
-//const port = process.env.REACT_APP_SERVER_PORT;
-//const API = `http://localhost:${port}`;
-const API = process.env.REACT_APP_SERVER_URL;
+const API = process.env.PYTHON_APP_API_BASE_URL || 'http://localhost:8000/api';
 
 
 /**
@@ -14,8 +12,9 @@ const API = process.env.REACT_APP_SERVER_URL;
  */
 export const countUsers = async () => {
     try {
+        console.log('API URL:', API);
         const response = await axios.get(`${API}/users`);
-        return response.data.utilisateurs.length;
+        return response.data.length;
     } catch (error) {
         //console.error(error);
         throw error;
@@ -26,7 +25,7 @@ export const countUsers = async () => {
 export const getAllUsers = async () => {
     try {
         const response = await axios.get(`${API}/users`);
-        return response.data.utilisateurs;
+        return response.data;
     } catch (error) {
         //console.error(error);
         throw error;

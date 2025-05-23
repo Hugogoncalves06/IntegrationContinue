@@ -46,6 +46,8 @@ const RegistrationForm = ({ setSuccessful }) => {
 
     if (Object.keys(validationErrors).length === 0) {
       try {
+        console.log('Form data before sending:', formData);
+        console.log('API URL:', process.env.PYTHON_APP_API_BASE_URL);
         const response = await axios.post(`${process.env.PYTHON_APP_API_BASE_URL}/users`, formData);
         if (response.status === 201) {
           // Afficher le toast de succès

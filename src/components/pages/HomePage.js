@@ -9,7 +9,7 @@ const HomePage = ({ userRole, userEmail }) => {
   const fetchUsers = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get(`${process.env.PYTHON_APP_API_BASE_URL}/api/users`, {
+      const response = await axios.get(`${process.env.PYTHON_APP_API_BASE_URL}/users`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -25,7 +25,7 @@ const HomePage = ({ userRole, userEmail }) => {
   const handleDeleteUser = async (userId) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.delete(`${process.env.PYTHON_APP_API_BASE_URL}/api/users/${userId}`, {
+      await axios.delete(`${process.env.PYTHON_APP_API_BASE_URL}/users/${userId}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
