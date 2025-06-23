@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { validateForm, areAllFieldsFilled } from '../utils/validation';
 import './RegistrationForm.css';
 import axios from 'axios';
@@ -27,42 +27,43 @@ const RegistrationForm = ({ setSuccessful }) => {
     email: '',
     birthDate: '',
     city: '',
-    postalCode: ''
+    postalCode: '',
+    password: ''
   });
-
   const [errors, setErrors] = useState({});
+  const [showPassword, setShowPassword] = useState(false);
+  const [passwordTouched, setPasswordTouched] = useState(false);
+
+  // Validation dynamique du mot de passe
+  const passwordRules = [
+    { label: 'Au moins 8 caractères', valid: formData.password.length >= 8 },
+    { label: 'Au moins une majuscule', valid: /[A-Z]/.test(formData.password) },
+    { label: 'Au moins un chiffre', valid: /[0-9]/.test(formData.password) }
+  ];
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    setFormData(prev => ({ ...prev, [name]: value }));
+    if (name === 'password') setPasswordTouched(true);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const validationErrors = validateForm(formData);
-
+    // Ajout validation password côté front
+    if (!formData.password || formData.password.length < 8 || !/[A-Z]/.test(formData.password) || !/[0-9]/.test(formData.password)) {
+      validationErrors.password = 'Le mot de passe doit contenir au moins 8 caractères, une majuscule et un chiffre.';
+    }
     if (Object.keys(validationErrors).length === 0) {
       try {
-        console.log('Form data before sending:', formData);
-        console.log('API URL:', process.env.PYTHON_APP_API_BASE_URL);
-        const response = await axios.post(`${process.env.PYTHON_APP_API_BASE_URL}/users`, formData);
+        const response = await axios.post(`${process.env.REACT_APP_PYTHON_API}/users`, formData);
         if (response.status === 201) {
-          // Afficher le toast de succès
           setSuccessful(true);
-          
-          // Réinitialiser le formulaire
           setFormData({
-            firstName: '',
-            lastName: '',
-            email: '',
-            birthDate: '',
-            city: '',
-            postalCode: ''
+            firstName: '', lastName: '', email: '', birthDate: '', city: '', postalCode: '', password: ''
           });
           setErrors({});
+          setPasswordTouched(false);
         }
       } catch (error) {
         if (error.response && error.response.status === 409) {
@@ -74,10 +75,11 @@ const RegistrationForm = ({ setSuccessful }) => {
     }
   };
 
-  const isFormValid = areAllFieldsFilled(formData);
+  const isFormValid = areAllFieldsFilled(formData) && passwordRules.every(r => r.valid);
 
   return (
     <form onSubmit={handleSubmit} className="registration-form" data-testid="registration-form">
+      <h2 data-testid="registration-title">Inscription</h2>
       <div className="form-group">
         <label htmlFor="firstName">Prénom</label>
         <input
@@ -115,7 +117,7 @@ const RegistrationForm = ({ setSuccessful }) => {
           value={formData.email}
           onChange={handleChange}
           className={errors.email ? 'error' : ''}
-          data-testid={errors.email ? 'error-email' : "input-email"}
+          data-testid="input-email"
         />
         {errors.email && <span className="error-message" data-testid="error-email">{errors.email}</span>}
       </div>
@@ -162,7 +164,40 @@ const RegistrationForm = ({ setSuccessful }) => {
         {errors.postalCode && <span className="error-message" data-testid="error-postalCode">{errors.postalCode}</span>}
       </div>
 
-      <button type="submit" disabled={!isFormValid}>
+      <div className="form-group">
+        <label htmlFor="password">Mot de passe</label>
+        <div style={{ position: 'relative' }}>
+          <input
+            type={showPassword ? 'text' : 'password'}
+            id="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            className={errors.password ? 'error' : ''}
+            data-testid="input-password"
+            onBlur={() => setPasswordTouched(true)}
+            required
+          />
+          <span
+            onClick={() => setShowPassword(v => !v)}
+            style={{ position: 'absolute', right: 10, top: 10, cursor: 'pointer', color: '#8b0000' }}
+            data-testid="toggle-password-visibility"
+            aria-label={showPassword ? 'Masquer le mot de passe' : 'Afficher le mot de passe'}
+          >
+            {showPassword ? '🙈' : '👁️'}
+          </span>
+        </div>
+        <ul className="password-rules">
+          {passwordRules.map((rule, idx) => (
+            <li key={idx} style={{ color: rule.valid ? 'green' : '#8b0000', fontWeight: rule.valid ? 'bold' : 'normal' }}>
+              {rule.valid ? '✔️' : '❌'} {rule.label}
+            </li>
+          ))}
+        </ul>
+        {errors.password && <span className="error-message" data-testid="error-password">{errors.password}</span>}
+      </div>
+
+      <button type="submit" disabled={!isFormValid} data-testid="submit-registration">
         Sauvegarder
       </button>
     </form>

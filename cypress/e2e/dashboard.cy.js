@@ -1,13 +1,13 @@
 describe('Admin Dashboard Tests', () => {
   beforeEach(() => {
     // Simule une connexion admin
-    cy.visit('http://localhost:3000');
+    cy.visit('/');
     cy.window().then((win) => {
       win.localStorage.setItem('token', 'fake-admin-token');
       win.localStorage.setItem('userRole', 'admin');
       win.localStorage.setItem('userEmail', 'admin@example.com');
     });
-    cy.visit('http://localhost:3000/home');
+    cy.visit('/home');
   });
 
   it('Affiche la liste des utilisateurs pour l\'admin', () => {

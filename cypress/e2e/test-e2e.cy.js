@@ -13,6 +13,7 @@ describe('Tests End-to-End', () => {
     cy.get('[data-testid="input-birthDate"]').type('1990-01-01');
     cy.get('[data-testid="input-city"]').type('Paris');
     cy.get('[data-testid="input-postalCode"]').type('75000');
+    cy.get('[data-testid="input-password"]').type('Password123!');
     cy.get('button[type="submit"]').click();
 
     // Vérification du toast de succès

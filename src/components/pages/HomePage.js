@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import AdminCreationForm from '../forms/AdminCreationForm';
 
 const HomePage = ({ userRole, userEmail }) => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showAdminForm, setShowAdminForm] = useState(false);
+  const navigate = useNavigate();
 
   const fetchUsers = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get(`${process.env.PYTHON_APP_API_BASE_URL}/users`, {
+      const response = await axios.get(`${process.env.REACT_APP_PYTHON_API}/users`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -25,7 +29,7 @@ const HomePage = ({ userRole, userEmail }) => {
   const handleDeleteUser = async (userId) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.delete(`${process.env.PYTHON_APP_API_BASE_URL}/users/${userId}`, {
+      await axios.delete(`${process.env.REACT_APP_PYTHON_API}/users/${userId}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -41,32 +45,41 @@ const HomePage = ({ userRole, userEmail }) => {
     fetchUsers();
   }, []);
 
-  if (loading) return <div>Chargement...</div>;
-  if (error) return <div className="error-message">{error}</div>;
+  if (loading) return <div className="loading" data-testid="loading-message">Chargement de la gazette...</div>;
+  if (error) return <div className="error-message" data-testid="error-message">{error}</div>;
 
   const isAdmin = userRole === 'admin';
   const currentUserData = users.find(user => user.email === userEmail);
 
   return (
     <div className="home-page">
-      <h2>Tableau de bord</h2>
-      <div className="user-actions">
-        <button onClick={() => localStorage.removeItem('token')} className="logout-button">
-          Déconnexion
-        </button>
-      </div>
-      
+      <h2 data-testid="page-title">{isAdmin ? 'Liste des utilisateurs' : 'Mes informations'}</h2>
+      {isAdmin && users.length === 0 && (
+        <div data-testid="no-users-message">Aucun utilisateur</div>
+      )}
+      {isAdmin && (
+        <div style={{ marginBottom: 20 }}>
+          <button onClick={() => setShowAdminForm(v => !v)} className="create-admin-btn">
+            {showAdminForm ? 'Fermer' : 'Créer un administrateur'}
+          </button>
+          {showAdminForm && (
+            <AdminCreationForm onSuccess={() => setShowAdminForm(false)} onClose={() => setShowAdminForm(false)} />
+          )}
+        </div>
+      )}
+      {!isAdmin && !currentUserData && (
+        <div data-testid="user-not-found">Utilisateur non trouvé</div>
+      )}
       {isAdmin ? (
         <div className="admin-view">
-          <h3>Liste des utilisateurs</h3>
-          <table>
+          <table className="user-table">
             <thead>
               <tr>
                 <th>Prénom</th>
                 <th>Nom</th>
                 <th>Email</th>
-                <th>Date de naissance</th>
                 <th>Ville</th>
+                <th>Date de naissance</th>
                 <th>Code postal</th>
                 <th>Actions</th>
               </tr>
@@ -77,11 +90,19 @@ const HomePage = ({ userRole, userEmail }) => {
                   <td>{user.firstName}</td>
                   <td>{user.lastName}</td>
                   <td>{user.email}</td>
-                  <td>{user.birthDate}</td>
                   <td>{user.city}</td>
+                  <td>{user.birthDate}</td>
                   <td>{user.postalCode}</td>
                   <td>
-                    <button 
+                    <button
+                      className="view-btn"
+                      onClick={() => navigate(`/user/${user.id}`)}
+                      data-testid={`user-detail-link-${user.id}`}
+                    >
+                      Voir
+                    </button>
+                    <button
+                      className="delete-btn"
                       onClick={() => handleDeleteUser(user.id)}
                       data-testid={`delete-user-${user.id}`}
                     >
@@ -93,20 +114,15 @@ const HomePage = ({ userRole, userEmail }) => {
             </tbody>
           </table>
         </div>
-      ) : currentUserData ? (
-        <div className="user-view">
-          <h3>Mes informations</h3>
-          <div className="user-info">
-            <p><strong>Prénom:</strong> {currentUserData.firstName}</p>
-            <p><strong>Nom:</strong> {currentUserData.lastName}</p>
-            <p><strong>Email:</strong> {currentUserData.email}</p>
-            <p><strong>Date de naissance:</strong> {currentUserData.birthDate}</p>
-            <p><strong>Ville:</strong> {currentUserData.city}</p>
-            <p><strong>Code postal:</strong> {currentUserData.postalCode}</p>
-          </div>
-        </div>
       ) : (
-        <div>Aucune information disponible</div>
+        <div className="user-view" data-testid="user-info">
+          <p><strong>Prénom :</strong> {currentUserData?.firstName}</p>
+          <p><strong>Nom :</strong> {currentUserData?.lastName}</p>
+          <p><strong>Email :</strong> {currentUserData?.email}</p>
+          <p><strong>Date de naissance :</strong> {currentUserData?.birthDate}</p>
+          <p><strong>Ville :</strong> {currentUserData?.city}</p>
+          <p><strong>Code postal :</strong> {currentUserData?.postalCode}</p>
+        </div>
       )}
     </div>
   );

@@ -1,82 +1,278 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Noto+Serif:wght@400;700&display=swap');
+
 .home-page {
-  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  font-family: 'Noto Serif', 'Times New Roman', serif;
+  background-color: #f9f7f1;
+  color: #1a1a1a;
+  line-height: 1.6;
+}
+
+.home-page h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 42px;
+  text-align: center;
+  margin-bottom: 30px;
+  border-bottom: 2px solid #1a1a1a;
+  padding-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.admin-view {
+  background-color: #fff;
+  padding: 30px;
+  margin-top: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .admin-view table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .admin-view th,
 .admin-view td {
-  border: 1px solid #ddd;
-  padding: 12px;
+  padding: 15px;
   text-align: left;
+  border-bottom: 1px solid #e0e0e0;
 }
 
 .admin-view th {
-  background-color: #f4f4f4;
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  background-color: #1a1a1a;
+  color: #f9f7f1;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .admin-view tr:hover {
-  background-color: #f8f8f8;
+  background-color: #f9f7f1;
 }
 
 .admin-view button {
   padding: 8px 16px;
-  background-color: #dc3545;
-  color: white;
+  background-color: #8b0000;
+  color: #f9f7f1;
   border: none;
-  border-radius: 4px;
+  font-family: 'Noto Serif', serif;
   cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .admin-view button:hover {
-  background-color: #c82333;
+  background-color: #a52a2a;
+  transform: translateY(-2px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .user-view {
-  max-width: 600px;
-  margin: 20px auto;
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 40px;
   background-color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  position: relative;
+  border-left: 3px double #1a1a1a;
+  border-right: 3px double #1a1a1a;
+}
+
+.user-view h3,
+.admin-view h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 32px;
+  margin-bottom: 25px;
+  text-align: center;
+  position: relative;
+  padding-bottom: 15px;
+}
+
+.user-view h3::after,
+.admin-view h3::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 3px;
+  background-color: #8b0000;
 }
 
 .user-info {
-  margin-top: 20px;
+  margin-top: 30px;
+  column-count: 2;
+  column-gap: 40px;
+  text-align: justify;
+  font-size: 15px;
+  line-height: 1.8;
 }
 
 .user-info p {
-  margin: 10px 0;
-  padding: 10px;
-  background-color: #f8f9fa;
-  border-radius: 4px;
+  margin: 0 0 20px 0;
+  break-inside: avoid;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.user-info strong {
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  color: #8b0000;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .user-actions {
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
+  border-bottom: 2px solid #1a1a1a;
+  padding-bottom: 20px;
 }
 
 .logout-button {
-  padding: 8px 16px;
-  background-color: #6c757d;
-  color: white;
+  padding: 10px 20px;
+  background-color: #1a1a1a;
+  color: #f9f7f1;
   border: none;
-  border-radius: 4px;
   cursor: pointer;
+  font-family: 'Playfair Display', serif;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  transition: all 0.3s ease;
+  position: relative;
 }
 
 .logout-button:hover {
-  background-color: #5a6268;
+  background-color: #8b0000;
+  transform: translateY(-2px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.loading,
+.error-message {
+  text-align: center;
+  padding: 40px;
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  color: #8b0000;
 }
 
 .error-message {
-  color: #dc3545;
+  border: 2px solid #8b0000;
+  margin: 40px auto;
+  max-width: 600px;
+  background-color: #fff;
+}
+
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  font-family: 'Noto Serif', serif;
+}
+
+.user-table th,
+.user-table td {
+  padding: 14px 10px;
+  border-bottom: 1px solid #e0e0e0;
+  text-align: left;
+}
+
+.user-table th {
+  background: #1a1a1a;
+  color: #fff;
+  font-family: 'Playfair Display', serif;
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.user-table tr:hover {
+  background: #f5f5f5;
+}
+
+.view-btn {
+  background: #fff;
+  color: #1a1a1a;
+  border: 1px solid #8b0000;
+  padding: 6px 14px;
+  border-radius: 4px;
+  margin-right: 8px;
+  font-family: 'Playfair Display', serif;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.view-btn:hover {
+  background: #8b0000;
+  color: #fff;
+}
+
+.delete-btn {
+  background: #8b0000;
+  color: #fff;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 4px;
+  font-family: 'Playfair Display', serif;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.delete-btn:hover {
+  background: #a80000;
+}
+
+.user-detail-page {
+  max-width: 500px;
+  margin: 40px auto;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  padding: 32px 28px;
+  font-family: 'Noto Serif', serif;
+}
+
+.user-detail-page h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
   text-align: center;
-  margin-top: 20px;
+  margin-bottom: 24px;
+  border-bottom: 2px solid #1a1a1a;
+  padding-bottom: 10px;
+}
+
+.user-detail-card p {
+  font-size: 18px;
+  margin: 12px 0;
+  color: #222;
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  color: #8b0000;
+  font-size: 16px;
+  cursor: pointer;
+  margin-bottom: 18px;
+  font-family: 'Playfair Display', serif;
+  text-decoration: underline;
+}
+
+.back-btn:hover {
+  color: #1a1a1a;
 }

@@ -28,9 +28,10 @@ export default function Toastr({ setSuccessful, duration = 5000 }) {
                     <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
                 </svg>
             </div>
-            <div className="toastr-message">You have been registered.</div>
+            <div className="toastr-message" data-testid="toast-message">You have been registered.</div>
             <button type="button"
                     className="toastr-close-btn"
+                    data-testid="toast-close-btn"
                     onClick={() => setSuccessful(false)}
                     aria-label="Close">
                 <svg className="icon-close" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"

@@ -1,27 +1,54 @@
-import SuccessToast from './Toastr';
-import { fireEvent, render, screen } from '@testing-library/react';
-import { useState } from 'react';
+import React from 'react';
+import { render, screen, fireEvent, act } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import Toastr from './Toastr';
 
-beforeEach(() => {
-    render(<ParentComponent/>);
-})
+describe('Toastr Component', () => {
+  const mockSetSuccessful = jest.fn();
+  
+  beforeEach(() => {
+    jest.useFakeTimers();
+  });
 
-function ParentComponent() {
-    const [isSuccessful, setSuccessful] = useState(true);
-    return (
-        <>
-            {isSuccessful && <SuccessToast setSuccessful={setSuccessful} />}
-        </>
-    );
-}
+  afterEach(() => {
+    jest.runOnlyPendingTimers();
+    jest.useRealTimers();
+    jest.clearAllMocks();
+  });
 
-test('render toast', () => {
-    expect(screen.getByText('You have been registered.')).toBeInTheDocument();
-})
+  it('renders success message', () => {
+    render(<Toastr setSuccessful={mockSetSuccessful} />);
+    expect(screen.getByTestId('toast-message')).toBeInTheDocument();
+  });
 
-test('setSuccessful to false when click on button', () => {
-    const button = screen.getByRole('button');
-    expect(button).toBeInTheDocument();
-    fireEvent.click(button)
-    expect(button).not.toBeInTheDocument();
-})
+  it('auto-closes after timeout', () => {
+    render(<Toastr setSuccessful={mockSetSuccessful} />);
+    expect(mockSetSuccessful).not.toHaveBeenCalled();
+    
+    act(() => {
+      jest.advanceTimersByTime(3000);
+    });
+    
+    expect(mockSetSuccessful).toHaveBeenCalledWith(false);
+  });
+
+  it('can be closed manually', () => {
+    render(<Toastr setSuccessful={mockSetSuccessful} />);
+    const closeButton = screen.getByTestId('toast-close-btn');
+    
+    fireEvent.click(closeButton);
+    expect(mockSetSuccessful).toHaveBeenCalledWith(false);
+  });
+
+  it('clears timeout on unmount', () => {
+    const { unmount } = render(<Toastr setSuccessful={mockSetSuccessful} />);
+    
+    unmount();
+    
+    act(() => {
+      jest.advanceTimersByTime(3000);
+    });
+    
+    expect(mockSetSuccessful).not.toHaveBeenCalled();
+  });
+});

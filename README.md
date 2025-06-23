@@ -37,57 +37,76 @@ Les tests incluent :
 - **Tests de Succès**
   - ✓ Rendu du composant Toastr lors d'une inscription réussie
   - ✓ Absence du composant Toastr à l'initialisation
-
 - **Tests de Validation**
   - ✓ Prénom invalide (caractères numériques)
-  - ✓ Nom invalide (caractères numériques)
-  - ✓ Email invalide (format incorrect)
-  - ✓ Date de naissance invalide (âge < 18 ans)
-  - ✓ Ville invalide (champ vide)
   - ✓ Code postal invalide (format incorrect)
+  - ✓ Email déjà utilisé
+  - ✓ Affichage des erreurs pour chaque champ obligatoire
+- **Tests d'authentification**
+  - ✓ Connexion utilisateur/admin
+  - ✓ Déconnexion
 
 ###### `src/components/utils/validation.test.js`
-- **Tests isOver18**
-  - ✓ Validation pour âge ≥ 18 ans
-  - ✓ Rejet pour âge < 18 ans
-  - ✓ Calcul correct avec anniversaire à venir
-  - ✓ Calcul précis pour même mois
+- **isOver18**
+  - ✓ Âge >= 18 ans
+  - ✓ Âge < 18 ans
+  - ✓ Date invalide
+- **isValidPostalCode**
+  - ✓ Code postal français valide
+  - ✓ Code postal invalide (trop court, lettres, etc.)
+- **isValidName**
+  - ✓ Noms valides (lettres, accents, tirets)
+  - ✓ Noms invalides (chiffres, symboles, vide)
+- **isValidEmail**
+  - ✓ Emails valides
+  - ✓ Emails invalides
+- **areAllFieldsFilled**
+  - ✓ Tous les champs remplis
+  - ✓ Champ(s) vide(s)
+- **validateForm**
+  - ✓ Retourne des erreurs pour chaque champ invalide
+  - ✓ Retourne un objet vide pour un formulaire valide
+  - ✓ Gère les cas limites (champs manquants/null/undefined)
 
-- **Tests isValidPostalCode**
-  - ✓ Accepte : "75000"
-  - ✓ Rejette : "abc", "1234", "123456", caractères spéciaux
+###### `src/components/forms/LoginForm.test.js`
+- ✓ Affichage du formulaire de connexion
+- ✓ Connexion réussie (admin et utilisateur)
+- ✓ Affichage d'une erreur en cas d'échec
+- ✓ Gestion des erreurs réseau
 
-- **Tests isValidName**
-  - ✓ Accepte : "John", "Jean-Pierre", "Éléonore"
-  - ✓ Rejette : "123", champ vide, "John123", caractères spéciaux
+###### `src/components/forms/RegistrationForm.test.js`
+- ✓ Affichage du formulaire d'inscription
+- ✓ Validation dynamique du mot de passe (longueur, majuscule, chiffre)
+- ✓ Affichage/masquage du mot de passe
+- ✓ Empêche la soumission si le mot de passe ne respecte pas les règles
+- ✓ Affichage des erreurs pour chaque champ
+- ✓ Soumission réussie
 
-- **Tests isValidEmail**
-  - ✓ Accepte : "test@example.com"
-  - ✓ Rejette : "invalid-email", "test@.com", "test@com"
+###### `src/components/pages/HomePage.test.js`
+- ✓ Affichage du chargement
+- ✓ Affichage des infos utilisateur (mode user)
+- ✓ Affichage de la liste des utilisateurs (mode admin)
+- ✓ Suppression d'utilisateur (admin)
+- ✓ Gestion des erreurs API
 
-- **Tests areAllFieldsFilled**
-  - ✓ Validation formulaire complet
-  - ✓ Détection champs manquants
+###### `src/components/forms/AdminCreationForm.test.js`
+- ✓ Affichage du formulaire admin
+- ✓ Validation dynamique du mot de passe
+- ✓ Création d'admin avec mot de passe valide
+- ✓ Affichage/masquage du mot de passe
 
 ###### `src/components/toastr/Toastr.test.js`
-- **Tests Composant Toast**
-  - ✓ Affichage correct du toast
-  - ✓ Gestion de la fermeture
+- ✓ Affichage du toast de succès
+- ✓ Fermeture automatique et manuelle
+- ✓ Nettoyage du timeout
 
-###### `src/module.test.js`
-- **Tests calculateAge**
-  - ✓ Calcul correct de l'âge
-  - ✓ Gestion des erreurs :
-    - Arguments manquants
-    - Type d'argument incorrect
-    - Absence de date de naissance
-    - Format de date invalide
-
-###### `server/app.test.js`
-- **Tests Serveur**
-  - ✓ Route GET /users
-  - ✓ Format JSON des réponses
-  - ✓ Gestion base de données vide
+###### E2E Cypress (dossier `cypress/e2e/`)
+- ✓ Flow complet utilisateur (inscription, connexion, dashboard)
+- ✓ Flow complet admin (connexion, gestion utilisateurs, création admin)
+- ✓ Validation dynamique des formulaires
+- ✓ Affichage/masquage du mot de passe
+- ✓ Empêche la soumission si le mot de passe ne respecte pas les règles
+- ✓ Gestion des erreurs et notifications
 
 ### Couverture des Tests
 
@@ -104,7 +123,6 @@ Les tests couvrent :
 - Interface utilisateur
 - Gestion des erreurs
 
-// ...existing code...
 ### `npm run test:coverage`
 
 Lance les tests avec génération du rapport de couverture.

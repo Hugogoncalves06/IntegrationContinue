@@ -30,6 +30,7 @@ describe('RegistrationForm Tests', () => {
     cy.get('[data-testid="input-birthDate"]').type('2000-01-01');
     cy.get('[data-testid="input-city"]').type('Paris');
     cy.get('[data-testid="input-postalCode"]').type('75000');
+    cy.get('[data-testid="input-password"]').type('Password123!');
     cy.get('button[type="submit"]').should('not.be.disabled').click();
 
     // Check if api is called
@@ -42,6 +43,7 @@ describe('RegistrationForm Tests', () => {
     cy.get('[data-testid="input-birthDate"]').type('2000-01-01');
     cy.get('[data-testid="input-city"]').type('Paris');
     cy.get('[data-testid="input-postalCode"]').type('75000');
+    cy.get('[data-testid="input-password"]').type('Password123!');
     cy.get('button[type="submit"]').should('be.disabled');
   });
 
@@ -51,6 +53,7 @@ describe('RegistrationForm Tests', () => {
     cy.get('[data-testid="input-birthDate"]').type('2000-01-01');
     cy.get('[data-testid="input-city"]').type('Paris');
     cy.get('[data-testid="input-postalCode"]').type('75000');
+    cy.get('[data-testid="input-password"]').type('Password123!');
     cy.get('button[type="submit"]').should('be.disabled');
   });
 
@@ -60,6 +63,7 @@ describe('RegistrationForm Tests', () => {
     cy.get('[data-testid="input-birthDate"]').type('2000-01-01');
     cy.get('[data-testid="input-city"]').type('Paris');
     cy.get('[data-testid="input-postalCode"]').type('75000');
+    cy.get('[data-testid="input-password"]').type('Password123!');
     cy.get('button[type="submit"]').should('be.disabled');
   });
 
@@ -69,6 +73,7 @@ describe('RegistrationForm Tests', () => {
     cy.get('[data-testid="input-email"]').type('john.doe@test.eu');
     cy.get('[data-testid="input-city"]').type('Paris');
     cy.get('[data-testid="input-postalCode"]').type('75000');
+    cy.get('[data-testid="input-password"]').type('Password123!');
     cy.get('button[type="submit"]').should('be.disabled');
   });
 
@@ -78,6 +83,7 @@ describe('RegistrationForm Tests', () => {
     cy.get('[data-testid="input-email"]').type('john.doe@test.eu');
     cy.get('[data-testid="input-birthDate"]').type('2000-01-01');
     cy.get('[data-testid="input-postalCode"]').type('75000');
+    cy.get('[data-testid="input-password"]').type('Password123!');
     cy.get('button[type="submit"]').should('be.disabled');
   });
 
@@ -87,6 +93,7 @@ describe('RegistrationForm Tests', () => {
     cy.get('[data-testid="input-email"]').type('john.doe@test.eu');
     cy.get('[data-testid="input-birthDate"]').type('2000-01-01');
     cy.get('[data-testid="input-city"]').type('Paris');
+    cy.get('[data-testid="input-password"]').type('Password123!');
     cy.get('button[type="submit"]').should('be.disabled');
   });
 });

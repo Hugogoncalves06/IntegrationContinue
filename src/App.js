@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import RegistrationForm from './components/forms/RegistrationForm';
 import HomePage from './components/pages/HomePage';
+import AuthPage from './components/pages/AuthPage';
 import Toastr from './components/toastr/Toastr';
+import UserDetailPage from './components/pages/UserDetailPage';
 import './App.css';
 
 /**
@@ -27,26 +28,38 @@ function App() {
   };
 
   return (
-    <Router>
+    <Router basename="/">
       <div className="App">
-        <header className="App-header">
-          <h1>Gestion des utilisateurs</h1>
-        </header>
         <main>
           <Routes>
-            <Route path="/" element={
+            <Route path="/" element={<Navigate to="/login" />} />
+            <Route path="/login" element={
               isAuthenticated ? 
                 <Navigate to="/home" /> : 
-                <RegistrationForm setSuccessful={setSuccessful} onLoginSuccess={handleLoginSuccess} />
+                <AuthPage setSuccessful={setSuccessful} onLoginSuccess={handleLoginSuccess} />
             } />
             <Route 
               path="/home" 
               element={
                 isAuthenticated ? 
-                  <HomePage userRole={userRole} userEmail={userEmail} /> : 
-                  <Navigate to="/" />
-              } 
+                  <HomePage 
+                    userRole={userRole} 
+                    userEmail={userEmail} 
+                    onLogout={() => {
+                      localStorage.removeItem('token');
+                      localStorage.removeItem('userRole');
+                      localStorage.removeItem('userEmail');
+                      setIsAuthenticated(false);
+                      setUserRole(null);
+                      setUserEmail(null);
+                    }}
+                    data-testid="home-page"
+                  /> : 
+                  <Navigate to="/login" />
+              }
             />
+            <Route path="/user/:id" element={<UserDetailPage />} />
+            <Route path="*" element={<Navigate to="/login" />} />
           </Routes>
           {successful && <Toastr setSuccessful={setSuccessful} />}
         </main>

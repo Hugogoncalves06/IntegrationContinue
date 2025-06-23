@@ -1,5 +1,5 @@
 import axios from 'axios';
-const API = process.env.PYTHON_APP_API_BASE_URL || 'http://localhost:8000/api';
+const API = process.env.REACT_APP_PYTHON_API || 'http://localhost:8000/api';
 
 
 /**
@@ -25,7 +25,7 @@ export const countUsers = async () => {
 export const getAllUsers = async () => {
     try {
         const response = await axios.get(`${API}/users`);
-        return response.data;
+        return response.data.utilisateurs;
     } catch (error) {
         //console.error(error);
         throw error;

@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap');
 
-.registration-form {
+.login-form {
   max-width: 400px;
   margin: 40px auto;
   padding: 40px;
@@ -11,7 +11,7 @@
   font-family: 'Noto Serif', 'Times New Roman', serif;
 }
 
-.registration-form h2 {
+.login-form h2 {
   font-family: 'Playfair Display', serif;
   font-size: 32px;
   text-align: center;
@@ -22,12 +22,12 @@
   letter-spacing: 2px;
 }
 
-.registration-form .form-group {
+.login-form .form-group {
   margin-bottom: 25px;
   position: relative;
 }
 
-.registration-form label {
+.login-form label {
   display: block;
   margin-bottom: 10px;
   font-family: 'Playfair Display', serif;
@@ -35,7 +35,7 @@
   color: #1a1a1a;
 }
 
-.registration-form input {
+.login-form input {
   width: 100%;
   padding: 12px;
   border: 1px solid #1a1a1a;
@@ -44,13 +44,13 @@
   font-size: 16px;
 }
 
-.registration-form input:focus {
+.login-form input:focus {
   outline: none;
   border-color: #8b0000;
   box-shadow: 0 0 5px rgba(139, 0, 0, 0.2);
 }
 
-.registration-form button {
+.login-form button {
   width: 100%;
   padding: 15px;
   background-color: #1a1a1a;
@@ -65,58 +65,32 @@
   margin-top: 20px;
 }
 
-.registration-form button:hover {
+.login-form button:hover {
   background-color: #8b0000;
   transform: translateY(-2px);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.registration-form .error-message {
+.login-form .error-message {
   color: #8b0000;
   margin-top: 10px;
   text-align: center;
   font-family: 'Playfair Display', serif;
 }
 
-.registration-form .switch-form {
+.login-form .switch-form {
   margin-top: 20px;
   text-align: center;
   font-family: 'Noto Serif', 'Times New Roman', serif;
   color: #666;
 }
 
-.registration-form .switch-form a {
+.login-form .switch-form a {
   color: #8b0000;
   text-decoration: none;
   font-weight: bold;
 }
 
-.registration-form .switch-form a:hover {
+.login-form .switch-form a:hover {
   text-decoration: underline;
-}
-
-.password-rules {
-  list-style: none;
-  padding: 0 0 0 10px;
-  margin: 10px 0 0 0;
-  font-size: 0.95em;
-  font-family: 'Noto Serif', 'Times New Roman', serif;
-}
-
-.password-rules li {
-  margin-bottom: 3px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-/* Icône d’affichage/masquage du mot de passe */
-input[type="password"],
-input[type="text"]#password {
-  padding-right: 2.5em;
-}
-
-[data-testid="toggle-password-visibility"] {
-  font-size: 1.2em;
-  user-select: none;
 }
