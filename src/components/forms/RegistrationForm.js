@@ -32,7 +32,6 @@ const RegistrationForm = ({ setSuccessful }) => {
   });
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
-  const [passwordTouched, setPasswordTouched] = useState(false);
 
   // Validation dynamique du mot de passe
   const passwordRules = [
@@ -44,7 +43,9 @@ const RegistrationForm = ({ setSuccessful }) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
-    if (name === 'password') setPasswordTouched(true);
+    // Validate the changed field and update errors
+    const fieldError = validateForm({ ...formData, [name]: value })[name];
+    setErrors(prev => ({ ...prev, [name]: fieldError }));
   };
 
   const handleSubmit = async (e) => {
@@ -63,7 +64,6 @@ const RegistrationForm = ({ setSuccessful }) => {
             firstName: '', lastName: '', email: '', birthDate: '', city: '', postalCode: '', password: ''
           });
           setErrors({});
-          setPasswordTouched(false);
         }
       } catch (error) {
         if (error.response && error.response.status === 409) {
@@ -175,7 +175,6 @@ const RegistrationForm = ({ setSuccessful }) => {
             onChange={handleChange}
             className={errors.password ? 'error' : ''}
             data-testid="input-password"
-            onBlur={() => setPasswordTouched(true)}
             required
           />
           <span

@@ -2,7 +2,7 @@
   "name": "integration-continue-hugo-goncalves",
   "version": "0.2.13",
   "private": false,
-  "homepage": "https://Hugogoncalves06.github.io/IntegrationContinue/",
+  "homepage": "https://Hugogoncalves06.github.io/",
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { isValidEmail } from '../utils/validation';
 import './AdminCreationForm.css';
 
 const initialState = {
@@ -19,10 +20,27 @@ export default function AdminCreationForm({ onSuccess, onClose }) {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
 
   const handleChange = e => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
     setError('');
+    if (name === 'email') {
+      if (!isValidEmail(value)) {
+        setEmailError("L'email n'est pas valide");
+      } else {
+        setEmailError('');
+      }
+    }
+    if (name === 'password') {
+      if (!value || passwordRules.some(rule => !rule.test(value))) {
+        setPasswordError('Le mot de passe doit contenir au moins 8 caractères, une majuscule et un chiffre.');
+      } else {
+        setPasswordError('');
+      }
+    }
   };
 
   const handleSubmit = async e => {
@@ -31,7 +49,7 @@ export default function AdminCreationForm({ onSuccess, onClose }) {
     setError('');
     try {
       await axios.post(`${process.env.REACT_APP_PYTHON_API}/admins`, form, {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+        headers: { Authorization: `${localStorage.getItem('token')}` },
       });
       setForm(initialState);
       if (onSuccess) onSuccess();
@@ -43,6 +61,8 @@ export default function AdminCreationForm({ onSuccess, onClose }) {
   };
 
   const passwordValid = passwordRules.every(rule => rule.test(form.password));
+  const emailValid = isValidEmail(form.email);
+  const canSubmit = passwordValid && emailValid && !loading && !emailError && !passwordError;
 
   return (
     <form className="admin-creation-form" onSubmit={handleSubmit} data-testid="admin-creation-form">
@@ -57,7 +77,9 @@ export default function AdminCreationForm({ onSuccess, onClose }) {
           onChange={handleChange}
           required
           data-testid="admin-email"
+          className={emailError ? 'error' : ''}
         />
+        {emailError && <span className="error-message" data-testid="admin-email-error" style={{ minHeight: 20, display: 'block' }}>{emailError}</span>}
       </div>
       <div className="form-group">
         <label htmlFor="admin-password">Mot de passe</label>
@@ -95,7 +117,7 @@ export default function AdminCreationForm({ onSuccess, onClose }) {
         </select>
       </div>
       {error && <div className="error-message" data-testid="admin-error">{error}</div>}
-      <button type="submit" disabled={!passwordValid || loading} data-testid="admin-submit">
+      <button type="submit" disabled={!canSubmit} data-testid="admin-submit">
         Créer
       </button>
       {onClose && <button type="button" onClick={onClose} style={{ marginLeft: 10 }}>Annuler</button>}

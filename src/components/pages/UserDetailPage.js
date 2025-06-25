@@ -15,7 +15,7 @@ const UserDetailPage = () => {
       try {
         const token = localStorage.getItem('token');
         const response = await axios.get(`${process.env.REACT_APP_PYTHON_API}/users/${id}`, {
-          headers: { 'Authorization': `Bearer ${token}` }
+          headers: { 'Authorization': `${token}` }
         });
         setUser(response.data);
         setLoading(false);

@@ -14,10 +14,9 @@ describe('LoginForm Component', () => {
 
   test('renders login form with all fields', () => {
     render(<LoginForm onLoginSuccess={mockOnLoginSuccess} />);
-    expect(screen.getByTestId('login-form')).toBeInTheDocument();
     expect(screen.getByTestId('login-title')).toBeInTheDocument();
-    expect(screen.getByTestId('login-email')).toBeInTheDocument();
-    expect(screen.getByTestId('login-password')).toBeInTheDocument();
+    expect(screen.getByTestId('input-email')).toBeInTheDocument();
+    expect(screen.getByTestId('input-password')).toBeInTheDocument();
     expect(screen.getByTestId('login-submit')).toBeInTheDocument();
   });
 
@@ -33,14 +32,14 @@ describe('LoginForm Component', () => {
 
     render(<LoginForm onLoginSuccess={mockOnLoginSuccess} />);
 
-    fireEvent.change(screen.getByTestId('login-email'), {
+    fireEvent.change(screen.getByTestId('input-email'), {
       target: { value: 'admin@example.com' }
     });
-    fireEvent.change(screen.getByTestId('login-password'), {
+    fireEvent.change(screen.getByTestId('input-password'), {
       target: { value: 'password123' }
     });
 
-    fireEvent.submit(screen.getByTestId('login-form'));
+    fireEvent.submit(screen.getByTestId('login-submit'));
 
     await waitFor(() => {
       expect(mockOnLoginSuccess).toHaveBeenCalledWith(
@@ -63,14 +62,14 @@ describe('LoginForm Component', () => {
 
     render(<LoginForm onLoginSuccess={mockOnLoginSuccess} />);
 
-    fireEvent.change(screen.getByTestId('login-email'), {
+    fireEvent.change(screen.getByTestId('input-email'), {
       target: { value: 'user@example.com' }
     });
-    fireEvent.change(screen.getByTestId('login-password'), {
+    fireEvent.change(screen.getByTestId('input-password'), {
       target: { value: 'password123' }
     });
 
-    fireEvent.submit(screen.getByTestId('login-form'));
+    fireEvent.submit(screen.getByTestId('login-submit'));
 
     await waitFor(() => {
       expect(mockOnLoginSuccess).toHaveBeenCalledWith(
@@ -89,14 +88,14 @@ describe('LoginForm Component', () => {
 
     render(<LoginForm onLoginSuccess={mockOnLoginSuccess} />);
 
-    fireEvent.change(screen.getByTestId('login-email'), {
+    fireEvent.change(screen.getByTestId('input-email'), {
       target: { value: 'wrong@example.com' }
     });
-    fireEvent.change(screen.getByTestId('login-password'), {
+    fireEvent.change(screen.getByTestId('input-password'), {
       target: { value: 'wrongpassword' }
     });
 
-    fireEvent.submit(screen.getByTestId('login-form'));
+    fireEvent.submit(screen.getByTestId('login-submit'));
 
     await waitFor(() => {
       expect(screen.getByTestId('login-error')).toHaveTextContent(errorMessage);
@@ -109,14 +108,14 @@ describe('LoginForm Component', () => {
 
     render(<LoginForm onLoginSuccess={mockOnLoginSuccess} />);
 
-    fireEvent.change(screen.getByTestId('login-email'), {
+    fireEvent.change(screen.getByTestId('input-email'), {
       target: { value: 'test@example.com' }
     });
-    fireEvent.change(screen.getByTestId('login-password'), {
+    fireEvent.change(screen.getByTestId('input-password'), {
       target: { value: 'password123' }
     });
 
-    fireEvent.submit(screen.getByTestId('login-form'));
+    fireEvent.submit(screen.getByTestId('login-submit'));
 
     await waitFor(() => {
       expect(screen.getByTestId('login-error')).toHaveTextContent('Erreur lors de la connexion');

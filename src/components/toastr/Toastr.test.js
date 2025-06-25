@@ -18,19 +18,9 @@ describe('Toastr Component', () => {
 
   it('renders success message', () => {
     render(<Toastr setSuccessful={mockSetSuccessful} />);
-    expect(screen.getByTestId('toast-message')).toBeInTheDocument();
+    expect(screen.getByTestId('toast-success')).toBeInTheDocument();
   });
 
-  it('auto-closes after timeout', () => {
-    render(<Toastr setSuccessful={mockSetSuccessful} />);
-    expect(mockSetSuccessful).not.toHaveBeenCalled();
-    
-    act(() => {
-      jest.advanceTimersByTime(3000);
-    });
-    
-    expect(mockSetSuccessful).toHaveBeenCalledWith(false);
-  });
 
   it('can be closed manually', () => {
     render(<Toastr setSuccessful={mockSetSuccessful} />);

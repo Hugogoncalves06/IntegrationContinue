@@ -31,6 +31,9 @@ services:
 
   api:
     image: hugogoncalves06/ci_cd_backend_flask_ynov:latest
+    #build:
+    #  context: ../Backend
+    #  dockerfile: Dockerfile
     ports:
       - "8000:8000"
     environment:

@@ -61,7 +61,7 @@ function App() {
             <Route path="/user/:id" element={<UserDetailPage />} />
             <Route path="*" element={<Navigate to="/login" />} />
           </Routes>
-          {successful && <Toastr setSuccessful={setSuccessful} />}
+          {successful && <Toastr setSuccessful={setSuccessful} duration={1000} />}
         </main>
       </div>
     </Router>

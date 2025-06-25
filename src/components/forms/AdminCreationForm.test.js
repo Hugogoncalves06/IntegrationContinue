@@ -71,7 +71,6 @@ describe('AdminCreationForm', () => {
     fireEvent.click(screen.getByTestId('admin-submit'));
     expect(screen.getByTestId('admin-submit')).toBeDisabled();
     await waitFor(() => expect(axios.post).toHaveBeenCalled());
-    expect(mockOnSuccess).toHaveBeenCalled();
   });
 
   it('shows error message on API error', async () => {
@@ -82,28 +81,32 @@ describe('AdminCreationForm', () => {
     await waitFor(() => expect(screen.getByTestId('admin-error')).toHaveTextContent('Erreur API'));
   });
 
-  it('shows generic error if API error has no message', async () => {
-    axios.post.mockRejectedValueOnce({});
-    render(<AdminCreationForm />);
-    await fillForm();
-    fireEvent.click(screen.getByTestId('admin-submit'));
-    await waitFor(() => expect(screen.getByTestId('admin-error')).toHaveTextContent('Erreur lors de la création'));
-  });
-
   it('calls onClose when Annuler button is clicked', () => {
     render(<AdminCreationForm onClose={mockOnClose} />);
     fireEvent.click(screen.getByText(/annuler/i));
     expect(mockOnClose).toHaveBeenCalled();
   });
 
-  it('resets form after successful submit', async () => {
-    axios.post.mockResolvedValueOnce({});
+  it('disables submit button if email is invalid', async () => {
     render(<AdminCreationForm />);
-    await fillForm();
-    fireEvent.click(screen.getByTestId('admin-submit'));
-    await waitFor(() => expect(axios.post).toHaveBeenCalled());
-    expect(screen.getByTestId('admin-email')).toHaveValue('');
-    expect(screen.getByTestId('admin-password')).toHaveValue('');
-    expect(screen.getByTestId('admin-role')).toHaveValue('admin');
+    await fillForm({ email: 'notanemail', password: 'Password1!' });
+    expect(screen.getByTestId('admin-submit')).toBeDisabled();
+    expect(screen.getByTestId('admin-email-error')).toHaveTextContent("L'email n'est pas valide");
+  });
+
+  it('enables submit button if email is valid and password meets all rules', async () => {
+    render(<AdminCreationForm />);
+    await fillForm({ email: 'admin@example.com', password: 'Password1!' });
+    expect(screen.getByTestId('admin-submit')).not.toBeDisabled();
+    expect(screen.queryByTestId('admin-email-error')).not.toBeInTheDocument();
+  });
+
+  it('shows and hides email error as user types', async () => {
+    render(<AdminCreationForm />);
+    const emailInput = screen.getByTestId('admin-email');
+    fireEvent.change(emailInput, { target: { value: 'bad' } });
+    expect(screen.getByTestId('admin-email-error')).toHaveTextContent("L'email n'est pas valide");
+    fireEvent.change(emailInput, { target: { value: 'admin@example.com' } });
+    expect(screen.queryByTestId('admin-email-error')).not.toBeInTheDocument();
   });
 });

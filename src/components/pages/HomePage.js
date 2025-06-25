@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import AdminCreationForm from '../forms/AdminCreationForm';
 
-const HomePage = ({ userRole, userEmail }) => {
+const HomePage = ({ userRole, userEmail, onLogout }) => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -15,7 +15,7 @@ const HomePage = ({ userRole, userEmail }) => {
       const token = localStorage.getItem('token');
       const response = await axios.get(`${process.env.REACT_APP_PYTHON_API}/users`, {
         headers: {
-          'Authorization': `Bearer ${token}`
+          'Authorization': `${token}`
         }
       });
       setUsers(response.data);
@@ -31,14 +31,22 @@ const HomePage = ({ userRole, userEmail }) => {
       const token = localStorage.getItem('token');
       await axios.delete(`${process.env.REACT_APP_PYTHON_API}/users/${userId}`, {
         headers: {
-          'Authorization': `Bearer ${token}`
+          'Authorization': `${token}`
         }
       });
-      // Rafraîchir la liste des utilisateurs
       fetchUsers();
+      window.location.reload();
     } catch (error) {
       setError('Erreur lors de la suppression de l\'utilisateur');
     }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('userRole');
+    localStorage.removeItem('userEmail');
+    navigate('/');
+    window.location.reload();
   };
 
   useEffect(() => {
@@ -52,18 +60,35 @@ const HomePage = ({ userRole, userEmail }) => {
   const currentUserData = users.find(user => user.email === userEmail);
 
   return (
-    <div className="home-page">
+    <div className="home-page" data-testid="home-page">
+        <button
+        data-testid="logout-btn"
+          className="logout-btn"
+        style={{ position: 'absolute', top: 20, right: 20 }}
+        onClick={() => {
+          if (typeof onLogout === 'function') {
+            onLogout();
+          } else {
+            localStorage.removeItem('token');
+            localStorage.removeItem('userRole');
+            localStorage.removeItem('userEmail');
+            navigate('/login');
+          }
+        }}
+        >
+          Déconnexion
+        </button>
       <h2 data-testid="page-title">{isAdmin ? 'Liste des utilisateurs' : 'Mes informations'}</h2>
       {isAdmin && users.length === 0 && (
         <div data-testid="no-users-message">Aucun utilisateur</div>
       )}
       {isAdmin && (
         <div style={{ marginBottom: 20 }}>
-          <button onClick={() => setShowAdminForm(v => !v)} className="create-admin-btn">
+          <button onClick={() => setShowAdminForm(v => !v)} className="create-admin-btn" data-testid="create-admin-btn">
             {showAdminForm ? 'Fermer' : 'Créer un administrateur'}
           </button>
           {showAdminForm && (
-            <AdminCreationForm onSuccess={() => setShowAdminForm(false)} onClose={() => setShowAdminForm(false)} />
+            <AdminCreationForm onSuccess={() => setShowAdminForm(false)} onClose={() => setShowAdminForm(false)} data-testid="admin-creation-form" />
           )}
         </div>
       )}
@@ -71,7 +96,7 @@ const HomePage = ({ userRole, userEmail }) => {
         <div data-testid="user-not-found">Utilisateur non trouvé</div>
       )}
       {isAdmin ? (
-        <div className="admin-view">
+        <div className="admin-view" data-testid="admin-view">
           <table className="user-table">
             <thead>
               <tr>
@@ -115,7 +140,7 @@ const HomePage = ({ userRole, userEmail }) => {
           </table>
         </div>
       ) : (
-        <div className="user-view" data-testid="user-info">
+        <div className="user-view" data-testid="user-view">
           <p><strong>Prénom :</strong> {currentUserData?.firstName}</p>
           <p><strong>Nom :</strong> {currentUserData?.lastName}</p>
           <p><strong>Email :</strong> {currentUserData?.email}</p>

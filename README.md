@@ -1,5 +1,11 @@
 # Formulaire d'Enregistrement React
+Pour l'évalution : 
+Le codecov : https://app.codecov.io/github/Hugogoncalves06/IntegrationContinue
+Le back-end : https://github.com/Hugogoncalves06/Integration_continue_backend
+Le front-end deployé : https://hugogoncalves06.github.io/
+Le back déployé : https://integration-continue-backend.vercel.app
 
+user admin : admin@dev.com - Test1234
 Ce projet est une application React qui implémente un formulaire d'enregistrement avec validation des champs et affichage de notifications.
 
 ## Fonctionnalités

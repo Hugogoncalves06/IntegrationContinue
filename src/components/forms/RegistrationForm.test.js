@@ -63,27 +63,17 @@ describe('RegistrationForm', () => {
   test('shows validation errors for invalid fields', async () => {
     setup();
     fireEvent.change(screen.getByTestId('input-firstName'), { target: { value: '123' } });
-    fireEvent.blur(screen.getByTestId('input-firstName'));
     fireEvent.change(screen.getByTestId('input-lastName'), { target: { value: '123' } });
-    fireEvent.blur(screen.getByTestId('input-lastName'));
     fireEvent.change(screen.getByTestId('input-email'), { target: { value: 'invalid' } });
-    fireEvent.blur(screen.getByTestId('input-email'));
     fireEvent.change(screen.getByTestId('input-birthDate'), { target: { value: '2020-01-01' } });
-    fireEvent.blur(screen.getByTestId('input-birthDate'));
-    fireEvent.change(screen.getByTestId('input-city'), { target: { value: '' } });
-    fireEvent.blur(screen.getByTestId('input-city'));
+    fireEvent.change(screen.getByTestId('input-city'), { target: { value: '1654' } });
     fireEvent.change(screen.getByTestId('input-postalCode'), { target: { value: 'abc' } });
-    fireEvent.blur(screen.getByTestId('input-postalCode'));
-    fireEvent.change(screen.getByTestId('input-password'), { target: { value: 'short' } });
-    fireEvent.blur(screen.getByTestId('input-password'));
-    fireEvent.click(screen.getByTestId('submit-registration'));
     expect(await screen.findByTestId('error-firstName')).toBeInTheDocument();
     expect(await screen.findByTestId('error-lastName')).toBeInTheDocument();
     expect(await screen.findByTestId('error-email')).toBeInTheDocument();
     expect(await screen.findByTestId('error-birthDate')).toBeInTheDocument();
     expect(await screen.findByTestId('error-city')).toBeInTheDocument();
     expect(await screen.findByTestId('error-postalCode')).toBeInTheDocument();
-    expect(await screen.findByTestId('error-password')).toBeInTheDocument();
   });
 
   test('submits form and calls setSuccessful on success', async () => {

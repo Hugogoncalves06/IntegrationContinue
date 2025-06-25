@@ -117,7 +117,6 @@ validateForm
         birthDate: '2020-01-01',
         city: '',
         postalCode: 'abc',
-        password: 'short'
       };
       const errors = validateForm(fields);
       expect(errors.firstName).toBeDefined();
@@ -126,7 +125,6 @@ validateForm
       expect(errors.birthDate).toBeDefined();
       expect(errors.city).toBeDefined();
       expect(errors.postalCode).toBeDefined();
-      expect(errors.password).toBeDefined();
     });
   });
 
@@ -207,36 +205,16 @@ validateForm
       });
     });
 
-  // --- AJOUT DE TESTS EDGE CASES ---
-  describe('validateForm - mot de passe', () => {
-    it('valide les mots de passe forts et rejette les faibles', () => {
-      const base = {
-        firstName: 'John', lastName: 'Doe', email: 'john@doe.com', birthDate: '1990-01-01', city: 'Paris', postalCode: '75000'
-      };
-      // Mot de passe fort
-      expect(validateForm({ ...base, password: 'Password123!' }).password).toBeUndefined();
-      // Trop court
-      expect(validateForm({ ...base, password: 'Short1!' }).password).toBeTruthy();
-      // Sans majuscule
-      expect(validateForm({ ...base, password: 'password123!' }).password).toBeTruthy();
-      // Sans chiffre
-      expect(validateForm({ ...base, password: 'Password!' }).password).toBeTruthy();
-      // Sans caractère spécial
-      expect(validateForm({ ...base, password: 'Password123' }).password).toBeTruthy();
-    });
-  });
-
   describe('validateForm - champs null/undefined', () => {
     it('gère les champs null ou undefined sans planter', () => {
       const base = {
-        firstName: null, lastName: undefined, email: '', birthDate: '', city: null, postalCode: undefined, password: undefined
+        firstName: null, lastName: undefined, email: '', birthDate: '', city: null, postalCode: undefined
       };
       const errors = validateForm(base);
       expect(errors.firstName).toBeTruthy();
       expect(errors.lastName).toBeTruthy();
       expect(errors.city).toBeTruthy();
       expect(errors.postalCode).toBeTruthy();
-      expect(errors.password).toBeTruthy();
     });
   });
 

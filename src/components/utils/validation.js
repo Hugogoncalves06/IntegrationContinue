@@ -49,7 +49,11 @@ export const isValidEmail = (email) => {
  * @returns {boolean} - True si tous les champs sont remplis, false sinon
  */
 export const areAllFieldsFilled = (fields) => {
-  return Object.values(fields).every(value => value.trim() !== '');
+  try {
+    return Object.values(fields).every(value => value.trim() !== '');
+  } catch (error) {
+    return false;
+  }
 };
 
 /**
@@ -60,27 +64,27 @@ export const areAllFieldsFilled = (fields) => {
 export const validateForm = (fields) => {
   const errors = {};
 
-  if (!isValidName(fields.firstName)) {
+  if (!fields.firstName || !isValidName(fields.firstName)) {
     errors.firstName = 'Le prénom n\'est pas valide';
   }
 
-  if (!isValidName(fields.lastName)) {
+  if (!fields.lastName || !isValidName(fields.lastName)) {
     errors.lastName = 'Le nom n\'est pas valide';
   }
 
-  if (!isValidEmail(fields.email)) {
+  if (!fields.email || !isValidEmail(fields.email)) {
     errors.email = 'L\'email n\'est pas valide';
   }
 
-  if (!isOver18(fields.birthDate)) {
+  if (!fields.birthDate || !isOver18(fields.birthDate)) {
     errors.birthDate = 'Vous devez avoir au moins 18 ans';
   }
 
-  if (!isValidPostalCode(fields.postalCode)) {
+  if (!fields.postalCode || fields.postalCode === undefined || !isValidPostalCode(fields.postalCode)) {
     errors.postalCode = 'Le code postal n\'est pas valide';
   }
 
-  if (!/^[a-zàáâäçèéêëìíîïñòóôöùúûüýÿ\s'-]+$/i.test(fields.city.trim())) {
+  if (!fields.city || !/^[a-zàáâäçèéêëìíîïñòóôöùúûüýÿ\s'-]+$/i.test(fields.city.trim())) {
     errors.city = 'La ville n\'est pas valide';
   }
 
