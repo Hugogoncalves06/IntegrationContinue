@@ -16,7 +16,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-      start_period: 50s
+      start_period: 30s
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -31,9 +31,6 @@ services:
 
   api:
     image: hugogoncalves06/ci_cd_backend_flask_ynov:latest
-    #build:
-    #  context: ../Backend
-    #  dockerfile: Dockerfile
     ports:
       - "8000:8000"
     environment:
@@ -45,12 +42,6 @@ services:
     depends_on:
       mysql:
         condition: service_healthy
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
-      start_period: 10s
       
   frontend:
     build:
