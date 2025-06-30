@@ -61,9 +61,7 @@ services:
       - api
   
   api-nodejs:
-    build: 
-      context: ../api-nodejs
-      dockerfile: Dockerfile
+    image: hugogoncalves06/ci_cd_nodejs_api_ynov:latest
     environment:
       - NODE_ENV=development
       - PORT=8080
