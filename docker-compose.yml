@@ -59,7 +59,35 @@ services:
       - REACT_APP_PYTHON_API
     depends_on:
       - api
+  
+  api-nodejs:
+    build: 
+      context: ../api-nodejs
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=development
+      - PORT=8080
+      - MONGODB_URI=mongodb://mongo:27017/blog-api
+      - JWT_SECRET=your-super-secret-jwt-key-change-in-production
+      - JWT_EXPIRES_IN=24h
+      - RATE_LIMIT_WINDOW_MS=900000
+      - RATE_LIMIT_MAX_REQUESTS=100
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:6.0
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_DATABASE=blog-api
+    volumes:
+      - mongo_data:/data/db
+    restart: unless-stopped
 
 volumes:
   mysql_data:
     driver: local
+  mongo_data:
