@@ -41,14 +41,6 @@ const HomePage = ({ userRole, userEmail, onLogout }) => {
     }
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('userRole');
-    localStorage.removeItem('userEmail');
-    navigate('/');
-    window.location.reload();
-  };
-
   useEffect(() => {
     fetchUsers();
   }, []);
